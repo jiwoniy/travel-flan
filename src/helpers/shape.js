@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
-export const album = PropTypes.shape({
+export const albumItem = PropTypes.shape({
   userId: PropTypes.number,
   id: PropTypes.number,
   title: PropTypes.string,
 });
 
-export const albums = PropTypes.arrayOf(album);
+export const albums = PropTypes.arrayOf(albumItem);

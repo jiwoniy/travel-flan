@@ -1,0 +1,21 @@
+.Albums {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.AlbumItem {
+  display: flex;
+  align-items: center;
+  border-style: solid;
+  border-width: 0.5px;
+  height: 100px;
+  border-color: yellow;
+}
+
+.AlbumItem__img {
+  margin: 0 auto;
+}
+
+.AlbumItem__title {
+  margin-left: 10px;
+}

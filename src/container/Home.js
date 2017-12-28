@@ -2,14 +2,32 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import {
+  Albums,
+  Pagination,
+} from '../components';
 import { AppStoreSelectors } from '../redux/reducers';
 import { CommonActions } from '../redux/actions';
 import { albums as albumsShape } from '../helpers/shape';
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      pageOfItems: [],
+    };
+
+    this.onChangePage = this.onChangePage.bind(this);
+  }
   componentDidMount() {
     const { appInit } = this.props;
     appInit();
+  }
+
+  onChangePage(pageOfItems) {
+    // update state with new page of items
+    this.setState({ pageOfItems });
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -18,15 +36,14 @@ class Home extends Component {
 
   render() {
     const { albums } = this.props;
-    const listItems = albums.map(album => (
-      <div key={album.id}>
-        {album.title}
-      </div>
-    ));
-
+    const { pageOfItems } = this.state;
     return (
       <div>
-        {listItems}
+        <Albums albums={pageOfItems} />
+        <Pagination
+          items={albums}
+          onChangePage={this.onChangePage}
+        />
       </div>
     );
   }
