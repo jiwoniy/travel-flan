@@ -8,16 +8,24 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 // eslint-disable-next-line
-import { Button, Welcome } from '@storybook/react/demo';
-import { Albums } from '../components';
+import { Button,Welcome } from '@storybook/react/demo';
+import {
+  Albums,
+  HelloWorld,
+} from '../components';
+
+import {
+  Login,
+} from '../container';
 
 import albumList from '../redux/reducers/__fixtures__/albumList.json';
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
-// storiesOf('Button', module)
-//   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-//   .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>);
+storiesOf('Flow', module)
+  .add('HelloWorld', () => <HelloWorld />)
+  .add('Login', () => <Login />)
+  .add('Home(Albums)', () => <Albums albums={albumList} />);
 
 storiesOf('Albums', module)
   .add('with default', () => <Albums albums={albumList} />);

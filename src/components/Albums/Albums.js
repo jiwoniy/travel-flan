@@ -8,7 +8,10 @@ import './Albums.css';
 function Albums(props) {
   const { albums } = props;
   const listItems = albums.map(album => (
-    <Item albumItem={album} />
+    <Item
+      key={album.id}
+      albumItem={album}
+    />
   ));
 
   return (

@@ -105,6 +105,7 @@ class Pagination extends Component {
       // don't display pager if there is only 1 page
       return null;
     }
+
     return (
       <div className="Pagination">
         <p className={pager.currentPage === 1 ? 'Pagination--inActive' : 'Pagination--active'}>

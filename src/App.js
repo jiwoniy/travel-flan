@@ -2,24 +2,19 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import { Home } from './container';
-import appStore from './redux/reducers';
-// import logo from './logo.svg';
+import { ErrorBoundary } from './components';
+import { Init } from './container';
+import RootReducer from './redux/reducers';
 import './App.css';
 
-const store = createStore(appStore);
-
-// render(
-//   <Provider store={store}>
-//     <App />
-//   </Provider>,
-//   document.getElementById('root')
-// )
+const store = createStore(RootReducer);
 
 function App() {
   return (
     <Provider store={store}>
-      <Home />
+      <ErrorBoundary>
+        <Init />
+      </ErrorBoundary>
     </Provider>
   );
 }

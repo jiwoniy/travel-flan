@@ -6,8 +6,8 @@ import {
   Albums,
   Pagination,
 } from '../components';
-import { AppStoreSelectors } from '../redux/reducers';
-import { CommonActions } from '../redux/actions';
+import { AlbumSelectors } from '../redux/reducers';
+import { AlbumsActions } from '../redux/actions';
 import { albums as albumsShape } from '../helpers/shape';
 
 class Home extends Component {
@@ -21,8 +21,8 @@ class Home extends Component {
     this.onChangePage = this.onChangePage.bind(this);
   }
   componentDidMount() {
-    const { appInit } = this.props;
-    appInit();
+    const { albumsInit } = this.props;
+    albumsInit();
   }
 
   onChangePage(pageOfItems) {
@@ -37,6 +37,7 @@ class Home extends Component {
   render() {
     const { albums } = this.props;
     const { pageOfItems } = this.state;
+
     return (
       <div>
         <Albums albums={pageOfItems} />
@@ -51,20 +52,20 @@ class Home extends Component {
 
 Home.propTypes = {
   albums: albumsShape,
-  appInit: PropTypes.func,
+  albumsInit: PropTypes.func,
 };
 
 Home.defaultProps = {
   albums: [],
-  appInit: () => {},
+  albumsInit: () => {},
 };
 
 const mapStateToProps = state => ({
-  albums: AppStoreSelectors.getAlbums(state),
+  albums: AlbumSelectors.getAlbums(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  appInit: () => dispatch(CommonActions.appInit()),
+  albumsInit: () => dispatch(AlbumsActions.albumsInit()),
 });
 
 const connectApp = connect(

@@ -1,7 +1,22 @@
-import appStore, * as AppStoreSelectors from './appStore';
+import { combineReducers } from 'redux';
 
-export default appStore;
+import AlbumsReducer, * as AlbumSelectors from './albums';
+import AuthReducer, * as AuthSelectors from './auth';
+
+const reducers = {
+  albums: AlbumsReducer,
+  auth: AuthReducer,
+};
+
+const RootReducer = combineReducers({
+  ...reducers,
+});
+
+export default RootReducer;
 export {
-  AppStoreSelectors,
+  AlbumsReducer,
+  AlbumSelectors,
+  AuthReducer,
+  AuthSelectors,
 };
 

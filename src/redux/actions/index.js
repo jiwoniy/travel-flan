@@ -1,6 +1,7 @@
-import * as CommonActions from './common';
+import * as AuthActions from './auth';
+import * as AlbumsActions from './albums';
 
 export {
-  // eslint-disable-next-line
-  CommonActions,
+  AuthActions,
+  AlbumsActions,
 };
