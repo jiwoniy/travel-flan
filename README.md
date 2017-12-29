@@ -12,13 +12,14 @@ This project was travel-flan task project
 >I implemented it by referring to this. http://jslancer.com/blog/2017/11/27/facebook-google-login-react/
 - [x] Error handling
 
-# Over Feature
+## Over Feature
 - [ ] async middleware
 - [ ] flexible ui
 - [ ] multi item delete
 - [ ] app login/logout function
+- [ ] use react-router
 
-# Improve Feature
+## Improve Feature
 - dynamic image size
 - Impreve design feature
 - Remember current page
@@ -29,9 +30,9 @@ This project was travel-flan task project
 - redux: Manage application state.
 - react-modal
 
-### core
+# core Module
 - redux
 - react-redux
 
-### option
+# option
 - eslint-config-airbnb : This package provides Airbnb's .eslintrc as an extensible shared config
