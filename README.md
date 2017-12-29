@@ -8,23 +8,24 @@ This project was travel-flan task project
 - [x] paginaion
 >I implemented it by referring to this. http://jasonwatmore.com/post/2017/03/14/react-pagination-example-with-logic-like-google
 - [x] each item create, read, update, delete
-- [ ] facebook login
+- [x] facebook login
 >I implemented it by referring to this. http://jslancer.com/blog/2017/11/27/facebook-google-login-react/
 - [x] Error handling
 
 # Over Feature
 - [ ] async middleware
-- [ ] multi device
+- [ ] flexible ui
 - [ ] multi item delete
+- [ ] app login/logout function
 
 # Improve Feature
-- async load script
-- use Normalization library
+- dynamic image size
 - Remember current page
+- use Normalization library
 
 ## Use plugin
-- storybook : This is a UI component dev environment for your app.
 - lodash: This is util's library.
+- redux: Manage application state.
 - react-modal
 
 ### core
@@ -33,4 +34,3 @@ This project was travel-flan task project
 
 ### option
 - eslint-config-airbnb : This package provides Airbnb's .eslintrc as an extensible shared config
-- storybook: The UI development environment
