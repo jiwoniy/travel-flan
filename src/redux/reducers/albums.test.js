@@ -46,14 +46,12 @@ test('album create', () => {
 
 test('album delete', () => {
   const state = albumNormalize(albumList);
-  const deleteArr = [1, 2, 3];
+  const deleteAlbum = { id: 1 };
 
-  const action = AlbumsActions.deleteAlbums(deleteArr);
+  const action = AlbumsActions.deleteAlbums(deleteAlbum);
   const newState = Object.assign({}, state);
 
-  for (let i = 0; i < deleteArr.length; i += 1) {
-    delete newState[deleteArr[i]];
-  }
+  delete newState[deleteAlbum.id];
 
   expect(AlbumsReducer(state, action))
     .toEqual(newState);
@@ -61,25 +59,17 @@ test('album delete', () => {
 
 test('album update', () => {
   const state = albumNormalize(albumList);
-  const updateArr = [
-    { id: 1, title: 'test1' },
-    { id: 2, title: 'test2' },
-    { id: 3, title: 'test3' },
-  ];
+  const updateAlbum = { id: 1, title: 'test1' };
 
-  const action = AlbumsActions.updateAlbums(updateArr);
+  const action = AlbumsActions.updateAlbums(updateAlbum);
   const newState = Object.assign({}, state);
 
-  for (let i = 0; i < updateArr.length; i += 1) {
-    const updateItem = updateArr[i];
-    const findItem = state[updateItem.id];
+  const findItem = state[updateAlbum.id];
 
-    newState[updateArr[i].id] = {
-      ...findItem,
-      title: updateItem.title ? updateItem.title : findItem.title,
-      userId: updateItem.userId ? updateItem.userId : findItem.userId,
-    };
-  }
+  newState[findItem.id] = {
+    ...findItem,
+    title: updateAlbum.title ? updateAlbum.title : findItem.title,
+  };
 
   expect(AlbumsReducer(state, action))
     .toEqual(newState);

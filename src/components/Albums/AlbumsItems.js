@@ -1,17 +1,19 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { albumItem as albumItemShape } from '../../helpers/shape';
 
 
-function Items(props) {
+function AlbumsItems(props) {
   const { albumItem } = props;
   const { id, title } = albumItem;
 
   return (
     <div
+      role="presentation"
       key={id}
       className="AlbumItem"
+      onClick={props.onAlbumsItemsClick}
     >
       <img
         className="AlbumItem__img"
@@ -23,12 +25,13 @@ function Items(props) {
   );
 }
 
-Items.propTypes = {
+AlbumsItems.propTypes = {
   albumItem: albumItemShape,
+  onAlbumsItemsClick: PropTypes.func.isRequired,
 };
 
-Items.defaultProps = {
+AlbumsItems.defaultProps = {
   albumItem: {},
 };
 
-export default Items;
+export default AlbumsItems;

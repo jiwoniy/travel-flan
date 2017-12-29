@@ -1,32 +1,160 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+import { connect } from 'react-redux';
 
-import Item from './Item';
+import AlbumsHeader from './AlbumsHeader';
+import AlbumsItems from './AlbumsItems';
+import { AlbumsActions } from '../../redux/actions';
 import { albums as albumsShape } from '../../helpers/shape';
+import hasEmpty from '../../helpers/hasEmpty';
 import './Albums.css';
 
-function Albums(props) {
-  const { albums } = props;
-  const listItems = albums.map(album => (
-    <Item
-      key={album.id}
-      albumItem={album}
-    />
-  ));
+const defaultItem = {
+  title: '',
+  userId: 1, // TODO: temp setting
+};
 
-  return (
-    <div className="Albums">
-      {listItems}
-    </div>
-  );
+class Albums extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isModalOpen: false,
+      albumItem: {},
+      tempAlbumItem: defaultItem,
+    };
+
+    this.save = this.save.bind(this);
+    this.delete = this.delete.bind(this);
+    this.albumsItemsClick = this.albumsItemsClick.bind(this);
+    this.requestCloseModal = this.requestCloseModal.bind(this);
+    this.requestOpenModal = this.requestOpenModal.bind(this);
+  }
+
+  albumsItemsClick(album) {
+    this.setState({
+      isModalOpen: true,
+      albumItem: album,
+      tempAlbumItem: album,
+    });
+  }
+
+  save() {
+    const { createAlbum, updateAlbum } = this.props;
+    const { albumItem, tempAlbumItem } = this.state;
+    if (hasEmpty(albumItem)) {
+      createAlbum(tempAlbumItem);
+    } else if (tempAlbumItem.id && albumItem.title !== tempAlbumItem.title) {
+      updateAlbum(tempAlbumItem);
+    }
+
+    this.requestCloseModal();
+  }
+
+  delete() {
+    const { deleteAlbum } = this.props;
+    const { albumItem } = this.state;
+    if (albumItem.id) {
+      deleteAlbum(albumItem);
+    }
+    this.requestCloseModal();
+  }
+
+  requestCloseModal() {
+    this.setState({
+      isModalOpen: false,
+      albumItem: {},
+      tempAlbumItem: defaultItem,
+    });
+  }
+
+  requestOpenModal() {
+    this.setState({
+      isModalOpen: true,
+    });
+  }
+
+  renderModal() {
+    const { isModalOpen, tempAlbumItem } = this.state;
+    return (
+      <Modal
+        isOpen={isModalOpen}
+        onAfterOpen={this.requestOpenModal}
+        onRequestClose={this.requestCloseModal}
+        contentLabel="Modal"
+        ariaHideApp={false}
+      >
+        <div className="AlbumModal">
+          <h1>Modal Content</h1>
+          <div className="body" >
+            <input
+              type="text"
+              value={tempAlbumItem.title}
+              onChange={e => this.setState({
+                tempAlbumItem: {
+                  ...tempAlbumItem,
+                  title: e.target.value,
+                },
+              })}
+            />
+          </div>
+          <div className="bottom" >
+            <button onClick={this.save}> save </button>
+            <button onClick={this.delete}> delete </button>
+            <button onClick={this.requestCloseModal}> close </button>
+          </div>
+        </div>
+      </Modal>
+    );
+  }
+
+  render() {
+    const { albums } = this.props;
+    // TODO: Improve performance(do not use inline fucntion)
+    const listItems = albums.map(album => (
+      <AlbumsItems
+        key={album.id}
+        albumItem={album}
+        onAlbumsItemsClick={() => this.albumsItemsClick(album)}
+      />
+    ));
+
+    return (
+      <div className="Albums">
+        <AlbumsHeader />
+        <button
+          onClick={this.requestOpenModal}
+        >
+          create
+        </button>
+        {listItems}
+        {this.renderModal()}
+      </div>
+    );
+  }
 }
 
 Albums.propTypes = {
   albums: albumsShape,
+  updateAlbum: PropTypes.func.isRequired,
+  deleteAlbum: PropTypes.func.isRequired,
+  createAlbum: PropTypes.func.isRequired,
 };
 
 Albums.defaultProps = {
   albums: [],
 };
 
-export default Albums;
+const mapDispatchToProps = dispatch => ({
+  updateAlbum: payload => dispatch(AlbumsActions.updateAlbum(payload)),
+  deleteAlbum: payload => dispatch(AlbumsActions.deleteAlbum(payload)),
+  createAlbum: payload => dispatch(AlbumsActions.createAlbum(payload)),
+});
+
+const connectAlbum = connect(
+  null,
+  mapDispatchToProps,
+)(Albums);
+
+export default connectAlbum;

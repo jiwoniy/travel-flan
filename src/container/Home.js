@@ -9,7 +9,7 @@ import {
 import { AlbumSelectors } from '../redux/reducers';
 import { AlbumsActions } from '../redux/actions';
 import { albums as albumsShape } from '../helpers/shape';
-
+// TODO Remember current page
 class Home extends Component {
   constructor(props) {
     super(props);

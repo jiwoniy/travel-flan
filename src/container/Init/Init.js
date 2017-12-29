@@ -40,16 +40,16 @@ class Init extends Component {
   }
 
   render() {
-    // const { fb, fbLoginStatus } = this.state;
-    // if (fbLoginStatus) {
+    const { fb, fbLoginStatus } = this.state;
+    if (fbLoginStatus) {
       return (
         <Home />
       );
-    // } else if (fb && typeof fb === 'object' && fbLoginStatus === false) {
-    //   return <Login fb={fb} />;
-    // }
+    } else if (fb && typeof fb === 'object' && fbLoginStatus === false) {
+      return <Login fb={fb} />;
+    }
 
-    // return <Loader />;
+    return <Loader />;
   }
 }
 

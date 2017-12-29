@@ -1,4 +1,3 @@
-// import merge from 'lodash/merge';
 import { AlbumsActions } from '../actions';
 import hasEmpty from '../../helpers/hasEmpty';
 import getAlbumId from '../../helpers/getAlbumId';
@@ -27,38 +26,30 @@ export default function AlbumsReducer(state = {}, action) {
       };
     }
     case albumsActionTypes.DELETE: {
-      if (hasEmpty(payload.albums) && Array.isArray(payload.albums)) {
+      if (hasEmpty(payload.album) && Array.isArray(payload.album)) {
         return state;
       }
 
-      const { albums } = payload;
+      const { album } = payload;
       const newState = Object.assign({}, state);
 
-      for (let i = 0; i < albums.length; i += 1) {
-        delete newState[albums[i]];
-      }
+      delete newState[album.id];
 
       return newState;
     }
     case albumsActionTypes.UPDATE: {
-      if (hasEmpty(payload.albums) && Array.isArray(payload.albums)) {
+      if (hasEmpty(payload.album) && Array.isArray(payload.album)) {
         return state;
       }
 
-      const { albums } = payload;
+      const { album } = payload;
       const newState = Object.assign({}, state);
 
-      for (let i = 0; i < albums.length; i += 1) {
-        const updateItem = albums[i];
-        const findItem = state[albums[i].id];
-
-        newState[albums[i].id] = {
-          ...findItem,
-          title: updateItem.title ? updateItem.title : findItem.title,
-          userId: updateItem.userId ? updateItem.userId : findItem.userId,
-        };
-      }
-
+      const findItem = state[album.id];
+      newState[album.id] = {
+        ...findItem,
+        title: album.title ? album.title : findItem.title,
+      };
       return newState;
     }
     default:

@@ -1,8 +1,8 @@
 import Albums from './Albums';
-import AlbumItem from './Item';
+import AlbumsItems from './AlbumsItems';
 
 export {
-  AlbumItem,
+  AlbumsItems,
   Albums,
 };
 

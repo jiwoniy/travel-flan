@@ -10,6 +10,6 @@ export const actionTypes = {
 export const albumsInit = makeActionCreator(actionTypes.INIT);
 export const createAlbum =
   makeActionCreator(actionTypes.CREATE, 'album');
-export const updateAlbums =
-  makeActionCreator(actionTypes.UPDATE, 'albums');
-export const deleteAlbums = makeActionCreator(actionTypes.DELETE, 'albums');
+export const updateAlbum =
+  makeActionCreator(actionTypes.UPDATE, 'album');
+export const deleteAlbum = makeActionCreator(actionTypes.DELETE, 'album');
