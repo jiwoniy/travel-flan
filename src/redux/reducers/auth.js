@@ -5,21 +5,25 @@ const { actionTypes: authActionTypes } = AuthActions;
 export default function AuthReducer(state = {}, action) {
   const {
     type,
+    payload,
   } = action;
 
   switch (type) {
     case authActionTypes.INIT:
       return {
-        auth: false,
+        login: false,
+        userId: null,
       };
     case authActionTypes.SUCCESS: {
       return {
-        auth: true,
+        login: true,
+        userId: payload.id,
       };
     }
-    case authActionTypes.DELETE: {
+    case authActionTypes.FAILURE: {
       return {
-        auth: false,
+        login: false,
+        userId: null,
       };
     }
     default:
@@ -28,3 +32,5 @@ export default function AuthReducer(state = {}, action) {
 }
 
 export const getAuth = state => state.auth;
+export const isLogin = state => state.auth.login;
+export const getUserId = state => state.auth.userId;

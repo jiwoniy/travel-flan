@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
+import { AuthActions } from '../../redux/actions';
+import { AuthSelectors } from '../../redux/reducers';
 import {
   Loader,
 } from '../../components';
@@ -13,40 +15,67 @@ class Init extends Component {
     super(props);
 
     this.state = {
+      fbReady: false,
       fbLoginStatus: false,
-      fb: window.FB,
     };
 
-    this.getFBLoginStatus = this.getFBLoginStatus.bind(this);
+    this.initializeFacebookLogin = this.initializeFacebookLogin.bind(this);
+    this.facebookLoginHandler = this.facebookLoginHandler.bind(this);
+    this.successLogin = this.successLogin.bind(this);
+  }
+
+  componentWillMount() {
+    const { authInit } = this.props;
+    authInit();
   }
 
   componentDidMount() {
-    this.getFBLoginStatus();
+    document.addEventListener('FBObjectReady', this.initializeFacebookLogin);
   }
 
-  getFBLoginStatus() {
-    if (window.FB) {
-      window.FB.getLoginStatus((response) => {
-        const { status } = response;
-        this.setState({
-          fb: window.FB,
-          fbLoginStatus: status === 'connected',
-        });
-        // statusChangeCallback(response);
+  initializeFacebookLogin() {
+    this.FB = window.FB;
+    this.setState({
+      fbReady: true,
+    });
+    this.checkLoginStatus();
+  }
+
+  checkLoginStatus() {
+    this.FB.getLoginStatus(this.facebookLoginHandler);
+  }
+
+  facebookLoginHandler(response) {
+    if (response.status === 'connected') {
+      this.FB.api('/me', (res) => {
+        this.successLogin(res);
       });
-    } else {
-      setTimeout(this.getFBLoginStatus, 1000);
     }
   }
 
+  successLogin(res) {
+    const { authSuccess } = this.props;
+    authSuccess(res.id);
+    this.setState({
+      fbLoginStatus: true,
+    });
+  }
+
   render() {
-    const { fb, fbLoginStatus } = this.state;
-    if (fbLoginStatus) {
+    const { isLogin } = this.props;
+    const { fbReady, fbLoginStatus } = this.state;
+
+    if (isLogin) {
       return (
         <Home />
       );
-    } else if (fb && typeof fb === 'object' && fbLoginStatus === false) {
-      return <Login fb={fb} />;
+    } else if (fbLoginStatus === false && fbReady === true) {
+      return (
+        <Login
+          fb={this.FB}
+          successLogin={this.successLogin}
+        />
+      );
     }
 
     return <Loader />;
@@ -54,26 +83,28 @@ class Init extends Component {
 }
 
 Init.propTypes = {
-  // albums: albumsShape,
-  // appInit: PropTypes.func,
+  authInit: PropTypes.func.isRequired,
+  authSuccess: PropTypes.func.isRequired,
+  isLogin: PropTypes.bool,
 };
 
 Init.defaultProps = {
-  // albums: [],
-  // appInit: () => {},
+  isLogin: false,
 };
 
-// const mapStateToProps = state => ({
-//   albums: AppStoreSelectors.getAlbums(state),
-// });
+const mapStateToProps = state => ({
+  auth: AuthSelectors.getAuth(state),
+  isLogin: AuthSelectors.isLogin(state),
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   appInit: () => dispatch(CommonActions.appInit()),
-// });
+const mapDispatchToProps = dispatch => ({
+  authInit: () => dispatch(AuthActions.authInit()),
+  authSuccess: id => dispatch(AuthActions.authSuccess(id)),
+});
 
-// const connectInit = connect(
-//   null,
-//   null,
-// )(Init);
+const connectInit = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Init);
 
-export default Init;
+export default connectInit;

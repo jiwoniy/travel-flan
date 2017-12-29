@@ -8,8 +8,7 @@ export const actionTypes = {
 
 export const authInit = makeActionCreator(actionTypes.INIT);
 export const authSuccess =
-  makeActionCreator(actionTypes.SUCCESS);
+  makeActionCreator(actionTypes.SUCCESS, 'id');
 export const authFailure =
   makeActionCreator(actionTypes.FAILURE);
-// export const deleteAlbums = makeActionCreator(actionTypes.DELETE, 'albums');
 

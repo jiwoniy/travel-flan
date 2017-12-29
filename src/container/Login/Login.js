@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  HelloWorld,
+} from '../../components';
+
 import './Login.css';
 
 class Login extends Component {
@@ -28,13 +32,10 @@ class Login extends Component {
   }
 
   onStatusChange(response) {
-    const { fb } = this.props;
+    const { fb, successLogin } = this.props;
     if (response.status === 'connected') {
       fb.api('/me', (res) => {
-        const message = `Welcome  + ${res.name}`;
-        this.setState({
-          message,
-        });
+        successLogin(res);
       });
     }
   }
@@ -47,7 +48,10 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="Login">
+      <div
+        className="Login"
+      >
+        <HelloWorld />
         <div
           className="fb-login-button"
           data-max-rows="1"
@@ -63,6 +67,7 @@ class Login extends Component {
 
 Login.propTypes = {
   fb: PropTypes.object.isRequired,
+  successLogin: PropTypes.func.isRequired,
 };
 
 export default Login;

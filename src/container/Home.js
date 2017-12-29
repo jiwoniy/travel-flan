@@ -6,10 +6,11 @@ import {
   Albums,
   Pagination,
 } from '../components';
+
 import { AlbumSelectors } from '../redux/reducers';
 import { AlbumsActions } from '../redux/actions';
 import { albums as albumsShape } from '../helpers/shape';
-// TODO Remember current page
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -26,13 +27,8 @@ class Home extends Component {
   }
 
   onChangePage(pageOfItems) {
-    // update state with new page of items
     this.setState({ pageOfItems });
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const { albums } = nextProps;
-  // }
 
   render() {
     const { albums } = this.props;

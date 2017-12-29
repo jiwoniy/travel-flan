@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import AlbumsHeader from './AlbumsHeader';
 import AlbumsItems from './AlbumsItems';
+import { AuthSelectors } from '../../redux/reducers';
 import { AlbumsActions } from '../../redux/actions';
 import { albums as albumsShape } from '../../helpers/shape';
 import hasEmpty from '../../helpers/hasEmpty';
@@ -41,10 +42,13 @@ class Albums extends Component {
   }
 
   save() {
-    const { createAlbum, updateAlbum } = this.props;
+    const { createAlbum, updateAlbum, userId } = this.props;
     const { albumItem, tempAlbumItem } = this.state;
     if (hasEmpty(albumItem)) {
-      createAlbum(tempAlbumItem);
+      createAlbum({
+        ...tempAlbumItem,
+        userId,
+      });
     } else if (tempAlbumItem.id && albumItem.title !== tempAlbumItem.title) {
       updateAlbum(tempAlbumItem);
     }
@@ -137,6 +141,10 @@ class Albums extends Component {
 
 Albums.propTypes = {
   albums: albumsShape,
+  userId: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   updateAlbum: PropTypes.func.isRequired,
   deleteAlbum: PropTypes.func.isRequired,
   createAlbum: PropTypes.func.isRequired,
@@ -144,7 +152,12 @@ Albums.propTypes = {
 
 Albums.defaultProps = {
   albums: [],
+  userId: 0,
 };
+
+const mapStateToProps = state => ({
+  userId: AuthSelectors.getUserId(state),
+});
 
 const mapDispatchToProps = dispatch => ({
   updateAlbum: payload => dispatch(AlbumsActions.updateAlbum(payload)),
@@ -153,7 +166,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const connectAlbum = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Albums);
 

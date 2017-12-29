@@ -9,7 +9,7 @@ This project was travel-flan task project
 >I implemented it by referring to this. http://jasonwatmore.com/post/2017/03/14/react-pagination-example-with-logic-like-google
 - [x] each item create, read, update, delete
 - [ ] facebook login
->I implemented it by referring to this. https://iamalivingcontradiction.wordpress.com/2015/09/21/how-to-use-facebook-login-with-react-and-babel/
+>I implemented it by referring to this. http://jslancer.com/blog/2017/11/27/facebook-google-login-react/
 - [x] Error handling
 
 # Over Feature
