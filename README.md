@@ -20,6 +20,7 @@ This project was travel-flan task project
 
 # Improve Feature
 - dynamic image size
+- Impreve design feature
 - Remember current page
 - use Normalization library
 
